@@ -64,6 +64,13 @@ public class VendingTest {
 		assertNotEquals("REJECT", vend.getAction());
 
 	}
+	@Test
+	public void updateDisplayMessage(){
+		Vending vend = new Vending();
+		assertEquals("INSERT COIN", vend.getDisplay());
+		vend.addCoin(2d, .7d);
+		assertEquals("BALANCE: 0.10", vend.getDisplay());
+	}
 
 
 }
