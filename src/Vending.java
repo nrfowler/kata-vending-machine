@@ -24,6 +24,8 @@ public class Vending {
 			balance += .25;
 		else if (weight> 4.9d && weight < 5.1d && diameter > .7d && diameter < .9d)
 			balance += .05;
+		else if (weight> 1.9d && weight < 2.1d && diameter > .6d && diameter < .8d)
+			balance += .1;
 	}
 
 

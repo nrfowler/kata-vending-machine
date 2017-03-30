@@ -24,6 +24,22 @@ public class VendingTest {
 		assertEquals(Double.valueOf(0),vend.getBalance());
 		
 	}
+	@Test
+	public void addDimetoBalance(){
+		Vending vend = new Vending();
+		vend.addCoin(2d,.7d);
+		assertEquals(Double.valueOf(.1),vend.getBalance());
+		vend = new Vending();
+		vend.addCoin(2.2d,.7d);
+		assertEquals(Double.valueOf(0),vend.getBalance());
+		vend = new Vending();
+		vend.addCoin(2d,.8d);
+		assertEquals(Double.valueOf(0),vend.getBalance());
+		vend = new Vending();
+		vend.addCoin(2.05d,.75d);
+		assertEquals(Double.valueOf(.1),vend.getBalance());
+		
+	}
 
 
 }
