@@ -69,7 +69,28 @@ public class VendingTest {
 		Vending vend = new Vending();
 		assertEquals("INSERT COIN", vend.getDisplay());
 		vend.addCoin(2d, .7d);
-		assertEquals("BALANCE: 0.10", vend.getDisplay());
+		assertEquals("BALANCE: $0.10", vend.getDisplay());
+	}
+	@Test
+	public void sumCoinsAndCheckDisplay(){
+		Vending vend = new Vending();
+		vend.addCoin(2d,.7d);
+		assertEquals("BALANCE: $0.10", vend.getDisplay());
+		vend.addCoin(2d, .7d);
+		assertEquals("BALANCE: $0.20", vend.getDisplay());
+		vend.addCoin(2d, .7d);
+		assertEquals("BALANCE: $0.30", vend.getDisplay());
+		vend.addCoin(6d,1d);
+		assertEquals("BALANCE: $0.55", vend.getDisplay());
+		vend.addCoin(5d,.8d);
+		assertEquals("BALANCE: $0.60", vend.getDisplay());
+		vend.addCoin(5d,.8d);
+		assertEquals("BALANCE: $0.65", vend.getDisplay());
+		vend.addCoin(6d,1d);
+		assertEquals("BALANCE: $0.90", vend.getDisplay());
+		
+
+
 	}
 
 

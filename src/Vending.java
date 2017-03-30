@@ -1,3 +1,5 @@
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Vending {
 	
@@ -20,7 +22,8 @@ public class Vending {
 		return display;
 	}
 	public void updateDisplaywithBalance(){
-		display = "BALANCE: "+this.getBalance().toString();
+		display = "BALANCE: "+NumberFormat.getCurrencyInstance(new Locale("en", "US"))
+		        .format(this.getBalance());
 	}
 	public Double getBalance() {
 		// TODO Auto-generated method stub
