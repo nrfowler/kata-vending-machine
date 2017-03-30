@@ -2,6 +2,7 @@
 *.swp
 .DS_Store
 *.class
+temporary.txt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

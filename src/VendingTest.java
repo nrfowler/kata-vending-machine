@@ -11,6 +11,19 @@ public class VendingTest {
 		vend.addCoin(5.8d,1.11d);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 	}
+	@Test
+	public void addNickeltoBalance(){
+		Vending vend = new Vending();
+		vend.addCoin(5d,.8d);
+		assertEquals(Double.valueOf(.05),vend.getBalance());
+		vend = new Vending();
+		vend.addCoin(5.2d,.8d);
+		assertEquals(Double.valueOf(0),vend.getBalance());
+		vend = new Vending();
+		vend.addCoin(5d,.9d);
+		assertEquals(Double.valueOf(0),vend.getBalance());
+		
+	}
 
 
 }

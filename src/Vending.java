@@ -22,6 +22,8 @@ public class Vending {
 	public void addCoin(Double weight, Double diameter) {
 		if (weight> 5.9d && weight < 6.1d && diameter > .9d && diameter < 1.1d)
 			balance += .25;
+		else if (weight> 4.9d && weight < 5.1d && diameter > .7d && diameter < .9d)
+			balance += .05;
 	}
 
 
