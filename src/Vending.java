@@ -25,6 +25,13 @@ public class Vending {
 		display = "BALANCE: "+NumberFormat.getCurrencyInstance(new Locale("en", "US"))
 		        .format(this.getBalance());
 	}
+	//Display msg for 4 seconds, then return the display to previous message
+	public void timeoutDisplay(String msg){
+		String tmp = display;
+		display = msg;
+		Thread thread = new Thread (new TimeoutDisplay(this, tmp));
+		thread.start();
+	}
 	public Double getBalance() {
 		// TODO Auto-generated method stub
 		return balance;
@@ -52,7 +59,7 @@ public class Vending {
 			updateDisplaywithBalance();
 		}
 		else{
-			display = "COIN NOT VALID";
+			timeoutDisplay("COIN NOT VALID");
 			action = "REJECT";
 		}
 	}

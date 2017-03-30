@@ -1,5 +1,8 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 public class VendingTest {
 	@Test
@@ -88,10 +91,19 @@ public class VendingTest {
 		assertEquals("BALANCE: $0.65", vend.getDisplay());
 		vend.addCoin(6d,1d);
 		assertEquals("BALANCE: $0.90", vend.getDisplay());
-		
-
-
 	}
+	//Display will render messages for a defined length of time and return to default message
+	@Test
+	public void displayTimeout() throws InterruptedException{
+		Vending vend = new Vending();
+		vend.addCoin(2d, .7d);
+		assertEquals("BALANCE: $0.10", vend.getDisplay());
+		vend.addCoin(0d,0d);
+		assertEquals("COIN NOT VALID", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("BALANCE: $0.10", vend.getDisplay());
 
+		
+	}
 
 }
