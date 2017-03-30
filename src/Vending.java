@@ -5,6 +5,16 @@ public class Vending {
 	
 	Double balance;
 	
+	String action;
+	
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	public String getDisplay() {
 		// TODO Auto-generated method stub
 		return display;
@@ -26,6 +36,10 @@ public class Vending {
 			balance += .05;
 		else if (weight> 1.9d && weight < 2.1d && diameter > .6d && diameter < .8d)
 			balance += .1;
+		else{
+			display = "COIN NOT VALID";
+			action = "REJECT";
+		}
 	}
 
 
