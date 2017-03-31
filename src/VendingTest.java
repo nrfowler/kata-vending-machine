@@ -1,4 +1,6 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
+
 import static org.junit.Assert.assertNotEquals;
 
 import java.text.NumberFormat;
@@ -10,16 +12,19 @@ public class VendingTest {
 	@Test
 	public void addQuartertoBalance(){
 		Vending vend = new Vending();
-		vend.addCoin(6d,1d);
+		Coin quarter = new Coin(6d,1d);
+		vend.addCoin(quarter);
 		assertEquals(Double.valueOf(.25),vend.getBalance());
 		vend = new Vending();
-		vend.addCoin(5.8d,1.11d);
+		Coin falseQuarter = new Coin(5.8d,1.11d);
+		vend.addCoin(falseQuarter);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 	}
 	@Test
 	public void addNickeltoBalance(){
 		Vending vend = new Vending();
-		vend.addCoin(5d,.8d);
+		Coin Nickel = new Coin(5d,.8d);
+		vend.addCoin(Nickel);
 		assertEquals(Double.valueOf(.05),vend.getBalance());
 		vend = new Vending();
 		vend.addCoin(5.2d,.8d);
@@ -52,34 +57,25 @@ public class VendingTest {
 	public void addPennyorOthertoMachine(){
 		//add a penny
 		Vending vend = new Vending();
-		double[] penny = {2.5d,.75d};
-		double[] reject = vend.addCoin(2.5d,.75d);
+		Coin penny = new Coin(2.5d,.75d);
+		Coin reject = vend.addCoin(penny);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 		assertEquals("COIN NOT VALID", vend.getDisplay());
-		if(reject!=null){	
-			assertEquals(Double.valueOf(penny[0]),Double.valueOf(reject[0]));
-			assertEquals(Double.valueOf(penny[1]),Double.valueOf(reject[1]));
-		}
+		assertEquals(penny,reject);
 		//add a half dollar
 		vend = new Vending();
-		double[] halfdollar = {11d,1.25d};
-		reject = vend.addCoin(11d,1.25d);
+		Coin halfdollar = new Coin(11d,1.25d);
+		reject = vend.addCoin(halfdollar);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 		assertEquals("COIN NOT VALID", vend.getDisplay());
-		if(reject!=null){	
-			assertEquals(Double.valueOf(halfdollar[0]),Double.valueOf(reject[0]));
-			assertEquals(Double.valueOf(halfdollar[1]),Double.valueOf(reject[1]));		
-		}
+		assertEquals(halfdollar,reject);
 		//add a valid coin
 		vend = new Vending();
-		double[] dime = {2d,.7d};
+		Coin dime = new Coin (2d,.7d);
 		reject = vend.addCoin(2d, .7d); //add dime
 		assertEquals(Double.valueOf(.1),vend.getBalance());
 		assertNotEquals("COIN NOT VALID", vend.getDisplay());
-		if(reject!=null){			
-			assertEquals(Double.valueOf(dime[0]),Double.valueOf(reject[0]));
-			assertEquals(Double.valueOf(dime[1]),Double.valueOf(reject[1]));
-		}
+		assertNotEquals(dime,reject);
 
 	}
 	@Test
@@ -183,5 +179,6 @@ public class VendingTest {
 		
 
 		}
+
 
 }

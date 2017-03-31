@@ -1,4 +1,5 @@
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Vending {
@@ -10,6 +11,7 @@ public class Vending {
 	SnackEnum selection;
 	
 	int[] numProducts;
+
 
 	public String getDisplay() {
 		// TODO Auto-generated method stub
@@ -41,7 +43,7 @@ public class Vending {
 		numProducts[2] = 10;
 	}
 
-	public double[] addCoin(Double weight, Double diameter) {
+	public Coin addCoin(Double weight, Double diameter) {
 		if (weight> 5.9d && weight < 6.1d && diameter > .9d && diameter < 1.1d)
 			{
 			balance += .25;
@@ -62,13 +64,16 @@ public class Vending {
 		}
 		else{
 			timeoutDisplay("COIN NOT VALID", null);
-			double[] rejected = {weight,diameter};
+			Coin rejected = new Coin(weight,diameter);
 			return rejected;
 			
 		}
 		
 	}
 
+	public Coin addCoin(Coin coin){
+		return addCoin(coin.getWeight(),coin.getDiameter());
+	}
 	public SnackEnum select(SnackEnum snack) {
 		SnackEnum returnedSnack = null;
 		if(numProducts[snack.ordinal()] >0){
