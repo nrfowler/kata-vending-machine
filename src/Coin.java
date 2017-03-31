@@ -1,20 +1,38 @@
+import java.math.BigDecimal;
 
-public class Coin {
+public class Coin implements Comparable<Coin>{
 
 	private final Double weight;
 	private final Double diameter;
+	private BigDecimal value;
 	Coin(Double weight,Double diameter){
 		this.weight = weight;
 		this.diameter = diameter;
+		this.value = Vending.bigDecimal(0);
 	}
 	
+	@Override
+	public String toString() {
+		return "Coin [weight=" + weight + ", diameter=" + diameter + ", value=" + value + "]";
+	}
+
+	public BigDecimal getValue() {
+		return value;
+	}
+
+	public void setValue(BigDecimal value) {
+		this.value = value;
+	}
+
 	public Double getWeight() {
 		return weight;
 	}
 	public Double getDiameter() {
 		return diameter;
 	}
-
+	public int compareTo(Coin other) {
+	    return  other.value.compareTo(this.value) ;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
