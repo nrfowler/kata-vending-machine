@@ -47,41 +47,37 @@ public class Vending {
 		numProducts[2] = 10;
 	}
 
-	public Coin addCoin(Double weight, Double diameter) {
-		if (weight> 5.9d && weight < 6.1d && diameter > .9d && diameter < 1.1d)
-			{
+	public Coin addCoin(Coin coin){
+		if (coin.getWeight()> 5.9d && coin.getWeight() < 6.1d && coin.getDiameter() > .9d && coin.getDiameter() < 1.1d)
+		{
 			balance += .25;
 			updateDisplaywithBalance();
-			coins.add(new Coin(weight,diameter));
-			return null;
-			}
-		else if (weight> 4.9d && weight < 5.1d && diameter > .7d && diameter < .9d)
-			{
-			balance += .05;
-			updateDisplaywithBalance();
-			coins.add(new Coin(weight,diameter));
-
+			coins.add(coin);
 			return null;
 		}
-		else if (weight> 1.9d && weight < 2.1d && diameter > .6d && diameter < .8d)
-			{
+		else if (coin.getWeight()> 4.9d && coin.getWeight() < 5.1d && coin.getDiameter() > .7d && coin.getDiameter() < .9d)
+		{
+			balance += .05;
+			updateDisplaywithBalance();
+			coins.add(coin);
+			
+			return null;
+		}
+		else if (coin.getWeight()> 1.9d && coin.getWeight() < 2.1d && coin.getDiameter() > .6d && coin.getDiameter() < .8d)
+		{
 			balance += .1;
 			updateDisplaywithBalance();
-			coins.add(new Coin(weight,diameter));
-
+			coins.add(coin);
+			
 			return null;
 		}
 		else{
 			timeoutDisplay("COIN NOT VALID", null);
-			Coin rejected = new Coin(weight,diameter);
-			return rejected;
+			
+			return coin;
 			
 		}
-		
-	}
 
-	public Coin addCoin(Coin coin){
-		return addCoin(coin.getWeight(),coin.getDiameter());
 	}
 	public SnackEnum select(SnackEnum snack) {
 		SnackEnum returnedSnack = null;
