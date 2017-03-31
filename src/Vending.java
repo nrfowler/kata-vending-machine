@@ -7,19 +7,9 @@ public class Vending {
 	
 	Double balance;
 	
-	String action;
-	
 	SnackEnum selection;
 	
 	int[] numProducts;
-	
-	public String getAction() {
-		return action;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
-	}
 
 	public String getDisplay() {
 		// TODO Auto-generated method stub
@@ -51,26 +41,32 @@ public class Vending {
 		numProducts[2] = 10;
 	}
 
-	public void addCoin(Double weight, Double diameter) {
+	public double[] addCoin(Double weight, Double diameter) {
 		if (weight> 5.9d && weight < 6.1d && diameter > .9d && diameter < 1.1d)
 			{
 			balance += .25;
 			updateDisplaywithBalance();
+			return null;
 			}
 		else if (weight> 4.9d && weight < 5.1d && diameter > .7d && diameter < .9d)
 			{
 			balance += .05;
 			updateDisplaywithBalance();
+			return null;
 		}
 		else if (weight> 1.9d && weight < 2.1d && diameter > .6d && diameter < .8d)
 			{
 			balance += .1;
 			updateDisplaywithBalance();
+			return null;
 		}
 		else{
 			timeoutDisplay("COIN NOT VALID", null);
-			action = "REJECT";
+			double[] rejected = {weight,diameter};
+			return rejected;
+			
 		}
+		
 	}
 
 	public SnackEnum select(SnackEnum snack) {

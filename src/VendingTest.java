@@ -47,26 +47,39 @@ public class VendingTest {
 	}
 	//If the coin or object is not a quarter, dime, or nickel, do not update the balance, 
 	//reject the coin, and display a "coin not valid" message
+	@SuppressWarnings("deprecation")
 	@Test
 	public void addPennyorOthertoMachine(){
 		//add a penny
 		Vending vend = new Vending();
-		vend.addCoin(2.5d,.75d);
+		double[] penny = {2.5d,.75d};
+		double[] reject = vend.addCoin(2.5d,.75d);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 		assertEquals("COIN NOT VALID", vend.getDisplay());
-		assertEquals("REJECT", vend.getAction());
+		if(reject!=null){	
+			assertEquals(Double.valueOf(penny[0]),Double.valueOf(reject[0]));
+			assertEquals(Double.valueOf(penny[1]),Double.valueOf(reject[1]));
+		}
 		//add a half dollar
 		vend = new Vending();
-		vend.addCoin(11d,1.25d);
+		double[] halfdollar = {11d,1.25d};
+		reject = vend.addCoin(11d,1.25d);
 		assertEquals(Double.valueOf(0),vend.getBalance());
 		assertEquals("COIN NOT VALID", vend.getDisplay());
-		assertEquals("REJECT", vend.getAction());
+		if(reject!=null){	
+			assertEquals(Double.valueOf(halfdollar[0]),Double.valueOf(reject[0]));
+			assertEquals(Double.valueOf(halfdollar[1]),Double.valueOf(reject[1]));		
+		}
 		//add a valid coin
 		vend = new Vending();
-		vend.addCoin(2d, .7d); //add dime
+		double[] dime = {2d,.7d};
+		reject = vend.addCoin(2d, .7d); //add dime
 		assertEquals(Double.valueOf(.1),vend.getBalance());
 		assertNotEquals("COIN NOT VALID", vend.getDisplay());
-		assertNotEquals("REJECT", vend.getAction());
+		if(reject!=null){			
+			assertEquals(Double.valueOf(dime[0]),Double.valueOf(reject[0]));
+			assertEquals(Double.valueOf(dime[1]),Double.valueOf(reject[1]));
+		}
 
 	}
 	@Test
