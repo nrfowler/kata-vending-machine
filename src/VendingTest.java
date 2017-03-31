@@ -4,6 +4,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -180,5 +182,19 @@ public class VendingTest {
 
 		}
 
-
+	@Test
+	public void returnCoins(){
+		ArrayList<Coin> coins =  new ArrayList<Coin> (Arrays.asList(new Coin (6d,1d),new Coin (6.05d,1d),new Coin (6d,1.05d),new Coin (0d,0d)));
+		Vending vend = new Vending();
+		ArrayList<Coin> rejects = vend.addCoinList(coins);
+		ArrayList<Coin> expectReject =new ArrayList<Coin>  (Arrays.asList(new Coin (0d,0d)));
+		//check that proper coins are rejected
+		assertEquals(expectReject, rejects);
+		//press return button and check proper coins are returned and displays INSERT COIN
+		ArrayList<Coin> returns = vend.returnCoins();
+		ArrayList<Coin> expectedReturns = new ArrayList<Coin>  (Arrays.asList(new Coin (6d,1d),new Coin (6.05d,1d),new Coin (6d,1.05d)));
+		assertEquals(expectedReturns,returns);
+		assertEquals("INSERT COIN", vend.getDisplay());
+		
+	}
 }
