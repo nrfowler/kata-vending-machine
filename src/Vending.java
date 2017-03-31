@@ -9,6 +9,10 @@ public class Vending {
 	
 	String action;
 	
+	SnackEnum selection;
+	
+	int[] numProducts;
+	
 	public String getAction() {
 		return action;
 	}
@@ -26,10 +30,11 @@ public class Vending {
 		        .format(this.getBalance());
 	}
 	//Display msg for 4 seconds, then return the display to previous message
-	public void timeoutDisplay(String msg){
-		String tmp = display;
+	public void timeoutDisplay(String msg, String msg2){
+		if (msg2 == null)
+				msg2 = display;
 		display = msg;
-		Thread thread = new Thread (new TimeoutDisplay(this, tmp));
+		Thread thread = new Thread (new TimeoutDisplay(this, msg2));
 		thread.start();
 	}
 	public Double getBalance() {
@@ -40,6 +45,10 @@ public class Vending {
 	public Vending(){
 		balance = 0d;
 		display = "INSERT COIN";
+		numProducts = new int[3];
+		numProducts[0] = 10;
+		numProducts[1] = 10;
+		numProducts[2] = 10;
 	}
 
 	public void addCoin(Double weight, Double diameter) {
@@ -59,9 +68,38 @@ public class Vending {
 			updateDisplaywithBalance();
 		}
 		else{
-			timeoutDisplay("COIN NOT VALID");
+			timeoutDisplay("COIN NOT VALID", null);
 			action = "REJECT";
 		}
+	}
+
+	public SnackEnum select(SnackEnum snack) {
+		SnackEnum returnedSnack = null;
+		if(numProducts[snack.ordinal()] >0){
+			if(snack.getCost() <= balance){
+			numProducts[snack.ordinal()]--;
+			returnedSnack = snack;
+			balance = (double) 0;
+			timeoutDisplay("THANK YOU", "INSERT COIN");
+			}
+			else{
+				timeoutDisplay("PRICE "+NumberFormat.getCurrencyInstance(new Locale("en", "US"))
+		        .format(snack.getCost()), "INSERT COIN");
+
+			}
+		}
+		else{
+			if(getBalance()>0)
+				timeoutDisplay("SOLD OUT", null);
+			else
+				timeoutDisplay("SOLD OUT","INSERT COIN");
+		}
+		return returnedSnack;
+	}
+
+	public void setBalance(double d) {
+		balance = d;
+		
 	}
 
 

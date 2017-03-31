@@ -1,6 +1,8 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
@@ -61,7 +63,7 @@ public class VendingTest {
 		assertEquals("REJECT", vend.getAction());
 		//add a valid coin
 		vend = new Vending();
-		vend.addCoin(2d,.7d);
+		vend.addCoin(2d, .7d); //add dime
 		assertEquals(Double.valueOf(.1),vend.getBalance());
 		assertNotEquals("COIN NOT VALID", vend.getDisplay());
 		assertNotEquals("REJECT", vend.getAction());
@@ -71,25 +73,25 @@ public class VendingTest {
 	public void updateDisplayMessage(){
 		Vending vend = new Vending();
 		assertEquals("INSERT COIN", vend.getDisplay());
-		vend.addCoin(2d, .7d);
+		vend.addCoin(2d, .7d); //add dime
 		assertEquals("BALANCE: $0.10", vend.getDisplay());
 	}
 	@Test
 	public void sumCoinsAndCheckDisplay(){
 		Vending vend = new Vending();
-		vend.addCoin(2d,.7d);
+		vend.addCoin(2d, .7d); //add dime
 		assertEquals("BALANCE: $0.10", vend.getDisplay());
-		vend.addCoin(2d, .7d);
+		vend.addCoin(2d, .7d); //add dime
 		assertEquals("BALANCE: $0.20", vend.getDisplay());
-		vend.addCoin(2d, .7d);
+		vend.addCoin(2d, .7d); //add dime
 		assertEquals("BALANCE: $0.30", vend.getDisplay());
-		vend.addCoin(6d,1d);
+		vend.addCoin(6d,1d); //add quarter
 		assertEquals("BALANCE: $0.55", vend.getDisplay());
-		vend.addCoin(5d,.8d);
+		vend.addCoin(5d,.8d); //add nickel
 		assertEquals("BALANCE: $0.60", vend.getDisplay());
-		vend.addCoin(5d,.8d);
+		vend.addCoin(5d,.8d); //add nickel
 		assertEquals("BALANCE: $0.65", vend.getDisplay());
-		vend.addCoin(6d,1d);
+		vend.addCoin(6d,1d); //add quarter
 		assertEquals("BALANCE: $0.90", vend.getDisplay());
 	}
 	//Display will render messages for a defined length of time and return to default message
@@ -105,5 +107,68 @@ public class VendingTest {
 
 		
 	}
+	@Test
+	public void makeSelection() throws InterruptedException{
+		Vending vend = new Vending();
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		//If sufficient funds for a cola, display THANK YOU and then INSERT COIN. Return a COLA enum from vend.select
+		SnackEnum product = vend.select(SnackEnum.COLA);
+		assertEquals(SnackEnum.COLA, product);
+		assertEquals("THANK YOU", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("INSERT COIN", vend.getDisplay());
+		assertEquals(Double.valueOf(0), vend.getBalance());
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(2d, .7d); //add dime
+		vend.addCoin(5d,.8d); //add nickel
+		//If sufficient funds for a CANDY, display THANK YOU and then INSERT COIN. Return a COLA enum from vend.select
+		product = vend.select(SnackEnum.CANDY);
+		assertEquals(SnackEnum.CANDY, product);
+		assertEquals("THANK YOU", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("INSERT COIN", vend.getDisplay());
+		assertEquals(Double.valueOf(0), vend.getBalance());
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		//If sufficient funds for CHIPS, display THANK YOU and then INSERT COIN. Return a COLA enum from vend.select
+		product = vend.select(SnackEnum.CHIPS);
+		assertEquals(SnackEnum.CHIPS, product);
+		assertEquals("THANK YOU", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("INSERT COIN", vend.getDisplay());
+		assertEquals(Double.valueOf(0), vend.getBalance());
+		//if insufficient funds, display PRICE X, then after five seconds, INSERT COIN
+		product = vend.select(SnackEnum.COLA);
+		assertEquals(null, product);
+		assertEquals("PRICE "+NumberFormat.getCurrencyInstance(new Locale("en", "US"))
+	        .format(SnackEnum.COLA.getCost()), vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("INSERT COIN", vend.getDisplay());
+		//if numProducts[0] is 0, display SOLD OUT , do not return a snack, and then display balance
+		vend.numProducts[0] = 0;
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		vend.addCoin(6d,1d); //add quarter
+		product = vend.select(SnackEnum.COLA);
+		assertEquals(null, product);
+		assertEquals("SOLD OUT", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("BALANCE: $1.00", vend.getDisplay());
+		//if numProducts[0] is 0 and balance is  0, display SOLD OUT, do not return a snack and display INSERT COIN	
+		vend.setBalance(0d);
+		product = vend.select(SnackEnum.COLA);
+		assertEquals(null, product);
+		assertEquals("SOLD OUT", vend.getDisplay());
+		TimeUnit.SECONDS.sleep(5);
+		assertEquals("INSERT COIN", vend.getDisplay());
+
+		
+
+		}
 
 }
